@@ -59,7 +59,7 @@
 
 <script>
 
-      window.addEventListener('keydown', function(e){ // in the window we are gonig to listen for the event
+      function playSound(e) {
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         // used in es6, const is the same as var and we are setting that value to audio and assigning to "document.querySelector..."
         //one thing to note here is that he used keyCode instead of assignning a class to all of the keys, which also works for referring to a group of items
@@ -67,11 +67,21 @@
         //console.log(audio);
         if(!audio) return; //if there is not an audio element we will just return (cancel)
         
-        audio.currentTime = 0; /*keep rewinding the sound to the beginning once it hits zero--also currentTime is a property of audio object*/
-        audio.play(); /*dot notation on the object*/
+        audio.currentTime = 0; //keep rewinding the sound to the beginning once it hits zero--also currentTime is a property of audio object
+        audio.play(); //dot notation on the object
         key.classList.add('playing');
-        key.classList.toggle('playing');
-      });
+        //key.classList.toggle('playing');
+      }
+      function removeTransition(e) {
+         if(e.propertyName != 'transform') return;
+         console.log(this); //this is whatever was called against it which is 'key' because thats before 'addEventListener'
+         this.classList.remove('playing');
+         }
+        
+      const keys = document.querySelectorAll('.key');
+      keys.forEach(key => key.addEventListener('transitioned', removeTransition));
+        
+      window.addEventListener('keydown', playSound); //in the window we are gonig to listen for the event
 </script>
 
 
