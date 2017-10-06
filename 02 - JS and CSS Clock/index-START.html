@@ -68,13 +68,28 @@
       transform-origin: 100%;
       /*the above will allow the hands to tick from the center or edge of the hands*/
       transform: rotate(90deg); /*this way the hands will all start at 12 oclock as opposed to their default at 945 */
+      transition: all 0.5s; /*when the hand rotates it will transition itself to its next position by five second increments*/
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
 
   <script>
 
-
+    function setDate() {
+      /*console.log('Hi'); // this allows us to test if our function will truly run every second*/
+      
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const secondsDegree = ((seconds/ 60) * 360) + 90; /*the reason we added 90 was to offset the previous 90 degrees we altered in row 70*/
+      const secondHand = document.querySelector('.second-hand');
+      secondHand.style.transform = 'rotate(${sexondsDegrees}deg)';
+      console.log(seconds);
+    }
+    
+    setInterval(setDate, 1000);
+    
+    }
   </script>
 </body>
 </html>
