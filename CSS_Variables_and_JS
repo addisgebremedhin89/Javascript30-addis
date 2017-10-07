@@ -1,0 +1,33 @@
+Playing with CSS Variables and JS
+
+--> different than SASS
+    --->controlled using javascript
+
+Example:
+
+3 Variables: Spacing, Blur and Base Color
+
+Declaring in CSS:
+
+  html {  (Using any selector)
+
+      --base: #ff0000; (values remain the same as usual)
+      --spacing: 10px;
+      --blur: 10px;
+}
+
+Using the declared CSS Variables:
+
+  img {
+    
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var--blur);
+
+}
+
+So to updates the variable's value you change it in your declaration of the variables.
+
+Bringing in JS
+
+*lost me here
