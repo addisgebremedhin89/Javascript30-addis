@@ -22,6 +22,7 @@
     }
 
     .panels {
+      display: flex;
       min-height:100vh;
       overflow: hidden;
     }
@@ -41,6 +42,11 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      justify-content: center
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -54,8 +60,22 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+        border: 1px solid red;
+        flex: 1 o auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-
+    
+    .panel > *:first-child {transform: translateY(-100%); }
+    /*hiding the top words by making them negative 100 percent so they go off screen*/
+    .panel.open-active > *:first-child { transform: translateY(0); }
+    /*the open-active class will allow the top items to transform (or animate) in when the column is hovered over*/
+    .panel > *:last-child {transform: translateY(100%); }
+    /*hiding the bottom words by making them negative 100 percent so they go off screen*/
+    .panel.open-active > *:last-child { transform: translateY(0); }
+   /*the open-active class will allow the bottom items to transform (or animate) in when the column is hovered over*/
+   
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
@@ -68,6 +88,7 @@
 
     .panel.open {
       font-size:40px;
+      flex: 5; /*when it has a class of open it will grow a little bit bigger than the other columns*/
     }
 
   </style>
@@ -103,9 +124,43 @@
 
   <script>
 
+    const panels = document.querySelectorAll('.panel');
+    //grab all of the panels, and then use querySelectorAll to get a node list of all panels
+    
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    function toggleActive(e) {
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+    
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen /*the reason toggle doesn't take parameters here is because we are referencing the function we created */ ));
+    //take each of the panels we are going to loop over them, listen for a click on each of them and run the toggle function wirtten in rows 129 and 130 on them
+  
+    panels.forEach(panel => panel.addEventListener('transitioned', toggleActive));
+    //when rown 139 is complete this function will be triggered then it will bring in the top and bottom words
+  
   </script>
 
+    const panels = document.querySelectorAll('.panel');
 
+    function toggleOpen() {
+      console.log('Hello');
+      this.classList.toggle('open');
+    }
 
+    function toggleActive(e) {
+      console.log(e.propertyName);
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+  
 </body>
 </html>
