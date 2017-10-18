@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+
+  //below we have grabbed our canvas element to draw on
+  
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d'); //we cant draw on the canvas we draw on what is called the context
+  canvas.width = window.innerWidth;
+  canvas.height = window;.innerHeight;
+  ctx.strokestyle = '#BADA55';
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 100;
+  
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  
+  function draw(e) {
+    if(!isDrawing) return; //this will stop the fnctn from running when they are not moused down
+    console.log(e);
+    ctx.strokeStyle = 'hsl(${hue}, 100%, 50%)';
+    ctx.beginPath();
+    //start from
+    ctx.moveTo(lastX, lastY);
+    //go to
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+    hue++; //this will increment the color so it will go from 0 which is red all through the rainbow endlessly
+      if(hue >= 360) { //360 is the highest hue number
+        hue = 0; //revert back to red
+      }
+      //to control this endless behavior you can use conditional functioning and here we chose if else statement
+      if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        direction = !direction;
+      }
+      if(direction) {
+        ctx.lineWidth++;
+      }else {
+      ctx.linewidth--;
+      }
+  }
+  
+  canvas.addEventListener('mousemove', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
+  
+  canvas.addEventListener('mousedown', () => isDrawing = true);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+</script>
+
+<style>
+  html, body {
+    margin:0;
+  }
+</style>
+
+</body>
+</html>
